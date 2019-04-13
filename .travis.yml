@@ -13,7 +13,7 @@ script: true
 cache: cargo
 before_deploy:
   - cargo build --release --target=$TARGET && mv target/release/badlogvis target/release/badlogvis-$TARGET
-  - [[ -z "$WIN" ]] && cargo build --release --target=$WIN && mv target/release/$WIN/badlogvis.exe target/release/$WIN/badlogvis-$WIN.exe
+  - test -n "$WIN" && cargo build --release --target=$WIN && mv target/release/$WIN/badlogvis.exe target/release/$WIN/badlogvis-$WIN.exe
 deploy:
   provider: releases
   api_key: $GH_TOKEN
