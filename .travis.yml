@@ -18,12 +18,7 @@ script: true
 cache: cargo
 before_deploy:
   - cargo build --release --target=$TARGET && mv target/release/badlogvis target/release/badlogvis-$TARGET
-  - >-
-      unset -e; test -n "$WIN"
-      && rustup target add $WIN
-      && printf "[target.$WIN]\nlinker = \"x86_64-w64-mingw32-gcc\"" >> ~/.cargo/config
-      && cargo build --release --target=$WIN
-      && mv target/$WIN/release/badlogvis.exe target/$WIN/release/badlogvis-$WIN.exe
+  - .ci/win-build.sh
 deploy:
   provider: releases
   api_key: $GH_TOKEN
